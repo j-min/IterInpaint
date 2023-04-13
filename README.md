@@ -12,6 +12,11 @@ The code for **IterInpaint**, a new baseline for layout-guided image generation,
 [Lijuan Wang](https://www.microsoft.com/en-us/research/people/lijuanw/),
 [Mohit Bansal](https://www.cs.unc.edu/~mbansal/)
 
+[[Project Page](https://layoutbench.github.io/)]
+[[Paper](https://layoutbench.github.io/)]
+[[Demo](https://layoutbench.github.io/)]
+
+# Summary Video
 
 <img src="./assets/iterinpaint_inference.png" width=1000px>
 
