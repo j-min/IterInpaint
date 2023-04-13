@@ -16,7 +16,6 @@ The code for **IterInpaint**, a new baseline for layout-guided image generation,
 [[Paper](https://layoutbench.github.io/)]
 [[Demo](https://layoutbench.github.io/)]
 
-# Summary Video
 
 <img src="./assets/iterinpaint_inference.png" width=1000px>
 
@@ -43,6 +42,10 @@ cd checkpoints
 
 wget https://huggingface.co/j-min/IterInpaint_CLEVR/resolve/main/iterinpaint_CLEVR_FG30.ckpt
 ```
+
+# Inference Demo
+
+Check out IterInpaint Inference with your custom layouts in [Colab Demo](./inference_iterinpaint.ipynb).
 
 # Diffusers support
 <!-- 
@@ -162,4 +165,16 @@ torchrun \
   --skill_split $skill_split \
   --save_bbox_viz \
   --name $run_name
+```
+
+# Citation
+
+If you find our project useful in your research, please cite the following paper:
+
+```bibtex
+@article{Cho2023LayoutBench,
+  author    = {Jaemin Cho and Linjie Li and Zhengyuan Yang and Zhe Gan and Lijuan Wang and Mohit Bansal},
+  title     = {Diagnostic Benchmark and Iterative Inpainting for Layout-Guided Image Generation},
+  year      = {2023},
+}
 ```

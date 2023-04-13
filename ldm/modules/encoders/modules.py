@@ -200,22 +200,23 @@ class FrozenCLIPEmbedder(AbstractEncoder):
 
             cliptext_weight = self.transformer.text_model.embeddings.token_embedding.weight
 
-            if cliptext_weight.shape[1] == 768:
-                ofa_weight = torch.load(
-                    'preload_model_checkpoints/OFA-base/ofa_base.pt',  # 768
-                    map_location='cpu')
-                print('Loading bins from OFA-base')
-            elif cliptext_weight.shape[1] == 1024:
-                ofa_weight = torch.load(
-                    'preload_model_checkpoints/OFA-large/ofa_large.pt',  # 1024
-                    map_location='cpu')
-                print('Loading bins from OFA-large')
-            else:
-                raise ValueError(f'OFA weight not found for dim={cliptext_weight.shape[1]}')
+            # if cliptext_weight.shape[1] == 768:
+            #     ofa_weight = torch.load(
+            #         'preload_model_checkpoints/OFA-base/ofa_base.pt',  # 768
+            #         map_location='cpu')
+            #     print('Loading bins from OFA-base')
+            # elif cliptext_weight.shape[1] == 1024:
+            #     ofa_weight = torch.load(
+            #         'preload_model_checkpoints/OFA-large/ofa_large.pt',  # 1024
+            #         map_location='cpu')
+            #     print('Loading bins from OFA-large')
+            # else:
+            #     raise ValueError(f'OFA weight not found for dim={cliptext_weight.shape[1]}')
 
-            ofa_weight = ofa_weight['model']['encoder.embed_tokens.weight']
+            # ofa_weight = ofa_weight['model']['encoder.embed_tokens.weight']
+            ofa_weight = torch.zeros((59457, cliptext_weight.shape[1]))
 
-            print('ofa_weight',ofa_weight.shape)
+            # print('ofa_weight',ofa_weight.shape)
             init_weight = torch.cat([cliptext_weight,ofa_weight[58457:]],dim=0)
             n, d = cliptext_weight.shape[0]+num_bins, cliptext_weight.shape[1]
             expand_word_emb = nn.Embedding(n, d, _weight=init_weight).to(cliptext_weight.device)
