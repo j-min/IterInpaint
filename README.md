@@ -13,8 +13,8 @@ The code for **IterInpaint**, a new baseline for layout-guided image generation,
 [Mohit Bansal](https://www.cs.unc.edu/~mbansal/)
 
 [[Project Page](https://layoutbench.github.io/)]
-[[Paper](https://layoutbench.github.io/)]
-[[Demo](https://layoutbench.github.io/)]
+[[Paper](https://arxiv.org/abs/2304.06671)]
+[[Demo](#inference-demo)]
 
 
 <img src="./assets/iterinpaint_inference.png" width=1000px>
