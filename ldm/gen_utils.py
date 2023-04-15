@@ -741,3 +741,116 @@ def inference_from_custom_annotation(custom_annotations, sampler, opt, global_ca
             gen_batch_size=1, verbose=False)[0]
 
         return generated_img
+    
+
+
+
+#### Below are for HF diffusers
+
+def iterinpaint_sample_diffusers(pipe, datum, paste=True, verbose=False, guidance_scale=4.0, size=512, background_instruction='Add gray background'):
+    d = datum
+
+    d['unnormalized_boxes'] = d['boxes_unnormalized']
+    
+    n_total_boxes = len(d['unnormalized_boxes'])
+
+    context_imgs = []
+    mask_imgs = []
+    # masked_imgs = []
+    generated_images = []
+    prompts = []
+
+    context_img = Image.new('RGB', (size, size))
+    # context_draw = ImageDraw.Draw(context_img)
+    if verbose:
+        print('Initiailzed context image')
+
+    background_mask_img = Image.new('L', (size, size))
+    background_mask_draw = ImageDraw.Draw(background_mask_img)
+    background_mask_draw.rectangle([(0, 0), background_mask_img.size], fill=255)
+
+    for i in range(n_total_boxes):
+        if verbose:
+            print('Iter: ', i+1, 'total: ', n_total_boxes)
+
+        target_caption = d['box_captions'][i]
+        if verbose:
+            print('Drawing ', target_caption)
+
+        mask_img = Image.new('L', context_img.size)
+        mask_draw = ImageDraw.Draw(mask_img)
+        mask_draw.rectangle([(0, 0), mask_img.size], fill=0)
+
+        box = d['unnormalized_boxes'][i]
+        if type(box) == list:
+            box = torch.tensor(box) 
+        mask_draw.rectangle(box.long().tolist(), fill=255)
+        background_mask_draw.rectangle(box.long().tolist(), fill=0)
+
+        mask_imgs.append(mask_img.copy())
+
+        
+        prompt = f"Add {d['box_captions'][i]}"
+
+        if verbose:
+            print('prompt:', prompt)
+        prompts += [prompt]
+
+        context_imgs.append(context_img.copy())
+
+        generated_image = pipe(
+            prompt,
+            context_img,
+            mask_img,
+            guidance_scale=guidance_scale).images[0]
+        
+        if paste:
+            # context_img.paste(generated_image.crop(box.long().tolist()), box.long().tolist())
+            
+
+            src_box = box.long().tolist()
+
+            # x1 -> x1 + 1
+            # y1 -> y1 + 1
+            paste_box = box.long().tolist()
+            paste_box[0] -= 1
+            paste_box[1] -= 1
+            paste_box[2] += 1
+            paste_box[3] += 1
+
+            box_w = paste_box[2] - paste_box[0]
+            box_h = paste_box[3] - paste_box[1]
+
+            context_img.paste(generated_image.crop(src_box).resize((box_w, box_h)), paste_box)
+            generated_images.append(context_img.copy())
+        else:
+            context_img = generated_image
+            generated_images.append(context_img.copy())
+
+    if verbose:
+        print('Fill background')
+
+    mask_img = background_mask_img
+
+    mask_imgs.append(mask_img)
+
+    prompt = background_instruction
+
+    if verbose:
+        print('prompt:', prompt)
+    prompts += [prompt]
+
+    generated_image = pipe(
+        prompt,
+        context_img,
+        mask_img,
+        guidance_scale=guidance_scale).images[0]
+
+    generated_images.append(generated_image)
+    
+    return {
+        'context_imgs': context_imgs,
+        'mask_imgs': mask_imgs,
+        'prompts': prompts,
+        'generated_images': generated_images,
+    }
