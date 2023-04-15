@@ -29,51 +29,39 @@ conda activate iterinpaint
 
 pip install torch torchvision
 pip install -r requirements.txt
-
-pip install diffusers gradio 
 ```
 
 
-# Download Pretrained CLEVR Checkpoint
+# 🧨 Diffusers support
 
-```bash
-mkdir checkpoints
-cd checkpoints
+We provide [Huggingface Diffusers](https://github.com/huggingface/diffusers) checkpoint for IterInpaint, where you can simply load our model as follows:
 
-wget https://huggingface.co/j-min/IterInpaint_CLEVR/resolve/main/iterinpaint_CLEVR_FG30.ckpt
+```python
+from diffusers import StableDiffusionInpaintPipeline
+pipe = StableDiffusionInpaintPipeline.from_pretrained('j-min/IterInpaint-CLEVR')
 ```
 
 # Inference Demo
 
-Check out IterInpaint Inference with your custom layouts in [Colab Demo](./inference_iterinpaint.ipynb).
+We provide demos for IterInpaint inference, where you can generate images with your own custom layouts.
 
-# Diffusers support
-<!-- 
-## Convert LDM-based checkpoint to HF diffusers format
+[Inference with Diffusers](./inference_iterinpaint_diffusers.ipynb) - You can run this notebook on Colab.
 
-```bash
-wget https://huggingface.co/j-min/IterInpaint_CLEVR/resolve/main/clevr_data2023-03-02T11-07-16-project.yaml
+[Inference with original LDM codebase](./inference_iterinpaint.ipynb) - You need 12GB+ CPU memory to build model (you would need Colab Pro).
 
-python convert_iterinpaint_ldm_checkpoint_to_diffusers.py \
-  --checkpoint_path 'checkpoints/iterinpaint_CLEVR_FG30.ckpt' \
-  --original_config_file 'checkpoints/clevr_data2023-03-02T11-07-16-project.yaml' \
-  --image_size 512 \
-  --prediction_type 'epsilon' \
-  --pipeline_type 'FrozenCLIPEmbedder' \
-  --extract_ema \
-  --dump_path 'checkpoints/iterinpaint_CLEVR_FG30_diffusers'
-```
-
-## Inference with Diffusers -->
-
-Coming soon.
 
 
 # Training IterInpaint on CLEVR
 
 <img src="./assets/iterinpaint_training.png" width=1000px>
 
-## Download SD checkpoint
+We provide pretrained checkpoints for IterInpaint on CLEVR.
+- Original checkpoint: https://huggingface.co/j-min/IterInpaint-CLEVR-original
+- Diffusers version: https://huggingface.co/j-min/IterInpaint-CLEVR
+
+Below, we provide the instructions for training IterInpaint on CLEVR.
+
+## 1) Download SD checkpoint
 
 ```bash
 mkdir preload_model_checkpoints
@@ -121,6 +109,29 @@ python main.py
   --fg_task_ratio $fg_task_ratio
   --seed 42
 ```
+
+## (optional) Convert LDM-based checkpoint to HF diffusers format
+
+```bash
+
+# checkpoint output path from training
+ckpt_path=xxxx.ckpt
+config_file=xxxx.project.yaml
+
+# output path for HF diffusers checkpoint
+dump_path=DUMP_PATH
+
+python convert_iterinpaint_ldm_checkpoint_to_diffusers.py \
+  --checkpoint_path $ckpt_path \
+  --original_config_file $config_file \
+  --image_size 512 \
+  --prediction_type 'epsilon' \
+  --pipeline_type 'FrozenCLIPEmbedder' \
+  --extract_ema \
+  --dump_path $dump_path
+```
+
+
 
 # CLEVR inference
 
