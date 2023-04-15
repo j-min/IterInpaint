@@ -1,5 +1,6 @@
 
 transformers
+diffusers
 opencv-python
 timm
 einops
@@ -16,13 +17,15 @@ imageio-ffmpeg
 clean-fid
 h5py
 pillow
+setuptools
 pytorch-lightning==1.5.9
 tensorboardX==2.4.1
 test-tube>=0.7.5
 streamlit>=0.73.1
-setuptools==59.5.0
 torch-fidelity==0.3.0
 torchmetrics==0.6.0
 kornia==0.6
 chardet
 cchardet
+taming-transformers-rom1504
+git+https://github.com/openai/CLIP.git
