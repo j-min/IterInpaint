@@ -45,9 +45,9 @@ pipe = StableDiffusionInpaintPipeline.from_pretrained('j-min/IterInpaint-CLEVR')
 
 We provide demos for IterInpaint inference, where you can generate images with your own custom layouts.
 
-[Inference with Diffusers](./inference_iterinpaint_diffusers.ipynb) - You can run this notebook on Colab.
+[Inference with Diffusers](./iterinpaint_inference_diffusers.ipynb) - You can run this notebook on Colab.
 
-[Inference with original LDM codebase](./inference_iterinpaint.ipynb) - You need 12GB+ CPU memory to build model (you would need Colab Pro).
+[Inference with original LDM codebase](./iterinpaint_inference.ipynb) - You need 12GB+ CPU memory to build model (you would need Colab Pro).
 
 
 
@@ -165,7 +165,7 @@ run_name='iterinpaint_guidance4.0'
 
 torchrun \
   --nnodes=$n_nodes \
-  --nproc_per_node=$n_gpus \
+  --nproc_per_node=_gpus \
   scripts/clevr_inference.py \
   --eval_data 'layoutbench' \
   --plms \
