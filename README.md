@@ -14,7 +14,10 @@ The code for **IterInpaint**, a new baseline for layout-guided image generation,
 
 [[Project Page](https://layoutbench.github.io/)]
 [[Paper](https://arxiv.org/abs/2304.06671)]
-[[Demo](#inference-demo)]
+[[Gradio Demo ![Gradio](https://gradio.app/assets/gradio.svg)](https://huggingface.co/spaces/j-min/IterInpaint-CLEVR)]
+[[Colab Demo ![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/j-min/IterInpaint/blob/main/iterinpaint_inference_diffusers.ipynb)]
+
+<!-- [[Demo](#inference-demo)] -->
 
 
 <img src="./assets/iterinpaint_inference.png" width=1000px>
@@ -41,14 +44,21 @@ from diffusers import StableDiffusionInpaintPipeline
 pipe = StableDiffusionInpaintPipeline.from_pretrained('j-min/IterInpaint-CLEVR')
 ```
 
-# Inference Demo
+# Inference Demos
 
 We provide demos for IterInpaint inference, where you can generate images with your own custom layouts.
+
+## Gradio
+<!-- https://huggingface.co/spaces/j-min/IterInpaint-CLEVR -->
+<!-- Gradio demo: [https://gradio.app/g/j-min/IterInpaint-CLEVR](https://gradio.app/g/j-min/IterInpaint-CLEVR) -->
+<!-- # add gradio icon -->
+[Gradio Demo with Diffusers](https://huggingface.co/spaces/j-min/IterInpaint-CLEVR)
+
+## Notebooks
 
 [Inference with Diffusers](./iterinpaint_inference_diffusers.ipynb) - You can run this notebook on Colab.
 
 [Inference with original LDM codebase](./iterinpaint_inference.ipynb) - You need 12GB+ CPU memory to build model (you would need Colab Pro).
-
 
 
 # Training IterInpaint on CLEVR
