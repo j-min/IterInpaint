@@ -3,7 +3,7 @@
 
 The code for **IterInpaint**, a new baseline for layout-guided image generation, as described in the paper:
 
-**[Diagnostic Benchmark and Iterative Inpainting for Layout-Guided Image Generation](https://layoutbench.github.io/)**
+**[Diagnostic Benchmark and Iterative Inpainting for Layout-Guided Image Generation (CVPR 2024 Workshop)](https://layoutbench.github.io/)**
 
 [Jaemin Cho](https://j-min.io),
 [Linjie Li](https://www.microsoft.com/en-us/research/people/linjli/),
@@ -14,11 +14,8 @@ The code for **IterInpaint**, a new baseline for layout-guided image generation,
 
 [[Project Page](https://layoutbench.github.io/)]
 [[Paper](https://arxiv.org/abs/2304.06671)]
-[[Gradio Demo ![Gradio](https://gradio.app/assets/gradio.svg)](https://huggingface.co/spaces/j-min/IterInpaint-CLEVR)]
+[[Gradio Demo ](https://huggingface.co/spaces/j-min/IterInpaint-CLEVR)]
 [[Colab Demo ![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/j-min/IterInpaint/blob/main/iterinpaint_inference_diffusers.ipynb)]
-
-<!-- [[Demo](#inference-demo)] -->
-
 
 <img src="./assets/iterinpaint_inference.png" width=1000px>
 
@@ -41,7 +38,12 @@ We provide [Huggingface Diffusers](https://github.com/huggingface/diffusers) che
 
 ```python
 from diffusers import StableDiffusionInpaintPipeline
+
+# CLEVR checkpoint
 pipe = StableDiffusionInpaintPipeline.from_pretrained('j-min/IterInpaint-CLEVR')
+
+# COCO checkpoint
+pipe = StableDiffusionInpaintPipeline.from_pretrained('j-min/iterinpaint_sd15inpaint_coco')
 ```
 
 # Inference Demos
@@ -193,9 +195,10 @@ torchrun \
 If you find our project useful in your research, please cite the following paper:
 
 ```bibtex
-@article{Cho2023LayoutBench,
+@inproceedings{Cho2024LayoutBench,
   author    = {Jaemin Cho and Linjie Li and Zhengyuan Yang and Zhe Gan and Lijuan Wang and Mohit Bansal},
   title     = {Diagnostic Benchmark and Iterative Inpainting for Layout-Guided Image Generation},
-  year      = {2023},
+  booktitle = {The First Workshop on the Evaluation of Generative Foundation Models},
+  year      = {2024},
 }
 ```
